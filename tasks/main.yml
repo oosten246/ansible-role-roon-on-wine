@@ -5,10 +5,10 @@
   register: roon
 
 - name: Install Roon
-  when: roon.stat.isreg is not defined or roon_on_wine_reinstall
+  when: roon.stat.isreg is not defined or roon_on_wine_reinstall | bool
   block:
     - name: Remove Roon
-      when: roon_on_wine_reinstall
+      when: roon_on_wine_reinstall | bool
       ansible.builtin.file:
         path: "/home/{{ ansible_env.USER }}/{{ item }}"
         state: absent
