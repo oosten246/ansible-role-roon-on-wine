@@ -1,7 +1,7 @@
 ---
 - name: Check if Roon is installed
   ansible.builtin.stat:
-    path: "/home/{{ ansible_env.USER }}/my_roon_instance/drive_c/users/{{ ansible_env.USER }}/AppData/Local/Roon/Application/Roon.exe"
+    path: "/home/{{ ansible_facts['env'].USER }}/my_roon_instance/drive_c/users/{{ ansible_facts['env'].USER }}/AppData/Local/Roon/Application/Roon.exe"
   register: roon
 
 - name: Install Roon
@@ -10,7 +10,7 @@
     - name: Remove Roon
       when: roon_on_wine_reinstall
       ansible.builtin.file:
-        path: "/home/{{ ansible_env.USER }}/{{ item }}"
+        path: "/home/{{ ansible_facts['env'].USER }}/{{ item }}"
         state: absent
       loop:
         - "my_roon_instance/"
@@ -38,7 +38,7 @@
       ansible.builtin.command: ./install.sh
       args:
         chdir: "{{ temp_dir.path }}"
-        creates: "/home/{{ ansible_env.USER }}/my_roon_instance/drive_c/users/{{ ansible_env.USER }}/AppData/Local/Roon/Application/Roon.exe"
+        creates: "/home/{{ ansible_facts['env'].USER }}/my_roon_instance/drive_c/users/{{ ansible_facts['env'].USER }}/AppData/Local/Roon/Application/Roon.exe"
 
     - name: Remove temp directory
       ansible.builtin.file:
